@@ -67,11 +67,10 @@ const thoughtController = {
       })
       .catch((err) => res.status(400).json(err));
   },
-  addReaction(req, res) {
-    console.log(req.params.thoughtId, req.body);
+  addReaction({ params, body }, res) {
     Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $addToSet: { reactions: req.body } },
+      { _id: params.thoughtId },
+      { $push: { reactions: body } },
       { new: true, runValidators: true }
     )
       .then((dbThoughtData) => {
